@@ -1,0 +1,25 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^3.0.0",
+    "@nuxtjs/supabase": "1.4.6",
+    "@supabase/supabase-js": "^2.49.1",
+    "@vueuse/core": "^13.0.0",
+    "nuxt": "^3.16.0",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@iconify-json/material-symbols-light": "^1.2.15",
+    "yup": "^1.6.1"
+  }
+}
