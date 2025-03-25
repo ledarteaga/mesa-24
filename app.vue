@@ -1,7 +1,11 @@
 <template>
-  <UNotifications />
-
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <ClientOnly>
+    <UApp>
+      <UToast />
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </UApp>
+    <NuxtLoadingIndicator />
+  </ClientOnly>
 </template>

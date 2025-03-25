@@ -15,6 +15,7 @@ export type Database = {
           description: string | null
           id: number
           order: number | null
+          restaurant: number
           user_id: string | null
         }
         Insert: {
@@ -22,6 +23,7 @@ export type Database = {
           description?: string | null
           id?: number
           order?: number | null
+          restaurant?: number
           user_id?: string | null
         }
         Update: {
@@ -29,9 +31,32 @@ export type Database = {
           description?: string | null
           id?: number
           order?: number | null
+          restaurant?: number
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "category_restaurant_fkey"
+            columns: ["restaurant"]
+            isOneToOne: false
+            referencedRelation: "client_restaurant"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "category_restaurant_fkey"
+            columns: ["restaurant"]
+            isOneToOne: false
+            referencedRelation: "menu_items"
+            referencedColumns: ["restaurant"]
+          },
+          {
+            foreignKeyName: "category_restaurant_fkey"
+            columns: ["restaurant"]
+            isOneToOne: false
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       category_item: {
         Row: {
@@ -76,40 +101,115 @@ export type Database = {
       }
       restaurants: {
         Row: {
+          address: string | null
           backdrop: string | null
+          facebook_user: string | null
           id: number
-          logo: string | null
+          instagram_user: string | null
+          logo: string
           name: string | null
+          phone_number: string | null
           preffered_currency: string | null
           primary_color: string | null
           slogan: string | null
+          url_name: string | null
           user_id: string | null
+          whatsapp: boolean | null
         }
         Insert: {
+          address?: string | null
           backdrop?: string | null
+          facebook_user?: string | null
           id?: number
-          logo?: string | null
+          instagram_user?: string | null
+          logo?: string
           name?: string | null
+          phone_number?: string | null
           preffered_currency?: string | null
           primary_color?: string | null
           slogan?: string | null
+          url_name?: string | null
           user_id?: string | null
+          whatsapp?: boolean | null
         }
         Update: {
+          address?: string | null
           backdrop?: string | null
+          facebook_user?: string | null
           id?: number
-          logo?: string | null
+          instagram_user?: string | null
+          logo?: string
           name?: string | null
+          phone_number?: string | null
           preffered_currency?: string | null
           primary_color?: string | null
           slogan?: string | null
+          url_name?: string | null
           user_id?: string | null
+          whatsapp?: boolean | null
         }
         Relationships: []
       }
     }
     Views: {
-      [_ in never]: never
+      client_restaurant: {
+        Row: {
+          address: string | null
+          backdrop: string | null
+          facebook_user: string | null
+          id: number | null
+          instagram_user: string | null
+          logo: string | null
+          name: string | null
+          phone_number: string | null
+          preffered_currency: string | null
+          primary_color: string | null
+          slogan: string | null
+          url_name: string | null
+          whatsapp: boolean | null
+        }
+        Insert: {
+          address?: string | null
+          backdrop?: string | null
+          facebook_user?: string | null
+          id?: number | null
+          instagram_user?: string | null
+          logo?: string | null
+          name?: string | null
+          phone_number?: string | null
+          preffered_currency?: string | null
+          primary_color?: string | null
+          slogan?: string | null
+          url_name?: string | null
+          whatsapp?: boolean | null
+        }
+        Update: {
+          address?: string | null
+          backdrop?: string | null
+          facebook_user?: string | null
+          id?: number | null
+          instagram_user?: string | null
+          logo?: string | null
+          name?: string | null
+          phone_number?: string | null
+          preffered_currency?: string | null
+          primary_color?: string | null
+          slogan?: string | null
+          url_name?: string | null
+          whatsapp?: boolean | null
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          category: string | null
+          item_description: string | null
+          name: string | null
+          price: number | null
+          restaurant: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

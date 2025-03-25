@@ -1,24 +1,33 @@
 <template>
-  <UModal v-model="open">
-    <GeneralModalLayout>
-      <template #title> {{ editing ? "Editar Item" : "Crear Item" }} </template>
+  <UModal v-model:open="open">
+    <template #title> {{ editing ? "Editar Item" : "Crear Item" }} </template>
 
+    <template #body>
       <UForm @submit="onFormSubmit" :state :schema class="flex flex-col gap-5">
-        <UFormGroup name="name" label="Nombre">
-          <UInput v-model="state.name" placeholder="Nombre" />
-        </UFormGroup>
-        <UFormGroup name="description" label="Descripcion">
-          <UTextarea v-model="state.description" placeholder="Descripcion" />
-        </UFormGroup>
-        <UFormGroup name="price" label="Precio">
-          <UInput v-model="state.price" type="number" placeholder="Precio" />
-        </UFormGroup>
+        <UFormField name="name" label="Nombre">
+          <UInput v-model="state.name" placeholder="Nombre" class="w-full" />
+        </UFormField>
+        <UFormField name="description" label="Descripcion">
+          <UTextarea
+            v-model="state.description"
+            placeholder="Descripcion"
+            class="w-full"
+          />
+        </UFormField>
+        <UFormField name="price" label="Precio">
+          <UInput
+            v-model="state.price"
+            type="number"
+            placeholder="Precio"
+            class="w-full"
+          />
+        </UFormField>
 
         <UButton class="mt-5 w-1/3 mx-auto block" type="submit">
           Guardar
         </UButton>
       </UForm>
-    </GeneralModalLayout>
+    </template>
   </UModal>
 </template>
 
@@ -106,7 +115,7 @@ const onFormSubmit = async (event: FormSubmitEvent<Schema>) => {
     toast.add({
       title: "Item creada",
       description: "El item se creó exitosamente.",
-      color: "green",
+      color: "success",
     });
 
     open.value = false;
@@ -117,7 +126,7 @@ const onFormSubmit = async (event: FormSubmitEvent<Schema>) => {
     toast.add({
       title: "Error",
       description: "Error al crear el item.",
-      color: "red",
+      color: "error",
     });
   }
 };

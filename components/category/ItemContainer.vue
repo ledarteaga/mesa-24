@@ -1,17 +1,17 @@
 <template>
   <div
     :class="[
-      'px-5 py-3 rounded-xl border border-gray-500 ',
+      'px-3 py-2 sm:px-5 sm:py-3 rounded-xl border border-gray-500 transition-all duration-200 ',
       selected && 'border-white',
     ]"
   >
-    <div class="flex items-center justify-between">
+    <div class="text-sm flex items-center justify-between">
       <p class="font-semibold">{{ item.name }}</p>
       <p class="font-semibold">{{ item.price }}</p>
     </div>
 
     <div>
-      <p class="text-sm text-gray-400">{{ item.description }}</p>
+      <p class="text-xs sm:text-sm text-gray-400">{{ item.description }}</p>
     </div>
   </div>
 </template>

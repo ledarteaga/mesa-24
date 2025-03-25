@@ -2,7 +2,7 @@
   <div class="h-full flex items-center justify-center">
     <UCard class="w-3/4 sm:w-1/3">
       <template #header>
-        <h2 class="text-2xl font-bold">Login</h2>
+        <GeneralLogo :collapsed="false" />
       </template>
 
       <div class="flex flex-col align-middle gap-5 px-4">
@@ -26,6 +26,18 @@
           label="Registar"
         />
       </div>
+
+      <template #footer>
+        <div class="flex gap-4">
+          <UButton
+            @click="onGoogleSignIn"
+            color="error"
+            class="grow flex justify-center"
+            icon="i-prime:google"
+            label="Ingresar con Google"
+          ></UButton>
+        </div>
+      </template>
     </UCard>
   </div>
 </template>
@@ -47,7 +59,7 @@ const onLoginClick = async () => {
     toast.add({
       title: "Error",
       description: "Complete el correo y la contraseña",
-      color: "red",
+      color: "error",
     });
 
     return;
@@ -69,7 +81,7 @@ const onLoginClick = async () => {
     toast.add({
       title: "Error",
       description: error,
-      color: "red",
+      color: "error",
     });
   }
   return;
@@ -86,7 +98,7 @@ const onRegisterClick = async () => {
     toast.add({
       title: "Error",
       description: "Las contraseñas no coinciden",
-      color: "red",
+      color: "error",
     });
 
     return;
@@ -94,7 +106,7 @@ const onRegisterClick = async () => {
     toast.add({
       title: "Error",
       description: "La contraseña debe tener al menos 6 caracteres",
-      color: "red",
+      color: "error",
     });
 
     return;
@@ -107,7 +119,7 @@ const onRegisterClick = async () => {
     });
 
     if (data.user) {
-      navigateTo("/");
+      navigateTo("/settings");
     } else {
       throw new Error("Error al registrar el usuario");
     }
@@ -115,8 +127,39 @@ const onRegisterClick = async () => {
     toast.add({
       title: "Error",
       description: error.message,
-      color: "red",
+      color: "error",
     });
   }
+};
+
+const onFacebookSignIn = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "facebook",
+  });
+
+  if (error) {
+    toast.add({
+      title: "Error",
+      description: error.message,
+      color: "error",
+    });
+
+    return;
+  }
+
+  navigateTo("/");
+};
+
+const onGoogleSignIn = async () => {
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+      redirectTo: window.location.origin + "/confirm",
+    },
+  });
 };
 </script>

@@ -1,18 +1,21 @@
 <template>
-  <UModal v-model="open">
-    <GeneralModalLayout>
-      <template #title> Crear categoria </template>
+  <UModal v-model:open="open">
+    <template #title> Crear categoria </template>
 
+    <template #body>
       <UForm @submit="onFormSubmit" :state :schema>
-        <UFormGroup name="description">
-          <UInput v-model="state.description" placeholder="Nombre" />
-        </UFormGroup>
-
+        <UFormField name="description">
+          <UInput
+            v-model="state.description"
+            class="w-full"
+            placeholder="Nombre"
+          />
+        </UFormField>
         <UButton class="mt-5 w-1/3 mx-auto block" type="submit">
           Guardar
         </UButton>
       </UForm>
-    </GeneralModalLayout>
+    </template>
   </UModal>
 </template>
 
@@ -53,7 +56,7 @@ const onFormSubmit = async (event: FormSubmitEvent<Schema>) => {
     toast.add({
       title: "Categoría creada",
       description: "La categoría se creó exitosamente",
-      color: "green",
+      color: "success",
     });
 
     open.value = false;
@@ -63,7 +66,7 @@ const onFormSubmit = async (event: FormSubmitEvent<Schema>) => {
     toast.add({
       title: "Error",
       description: "Error al crear la categoría",
-      color: "red",
+      color: "error",
     });
   }
 };

@@ -1,1 +1,20 @@
 @import "tailwindcss" theme(static);
+@import "@nuxt/ui";
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.1s ease-in-out;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s ease-in-out;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

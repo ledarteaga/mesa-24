@@ -1,87 +1,103 @@
 <template>
-  <section class="h-full flex gap-8 px-5 py-8">
-    <GeneralContainer class="w-1/2 flex flex-col grow">
-      <template #title>Categorias</template>
-      <template #actions>
-        <UButton @click="categoryCreateModal?.openModal"> Crear </UButton>
-      </template>
+  <section class="h-full flex flex-col px-10 py-8 gap-5">
+    <div class="block">
+      <GeneralSectionHeader>
+        <template #title> Menu </template>
 
-      <div class="flex flex-col gap-5 mt-5">
-        <template v-if="categoriesStatus === 'success'">
-          <CategoryContainer
-            v-if="categories?.length"
-            @click="selectedCategory = ind"
-            v-for="(category, ind) in categories"
-            :key="category.id"
-            :category
-            :selected="ind === selectedCategory"
-          />
-
-          <GeneralEmptySlot v-else> No hay categorías </GeneralEmptySlot>
+        <template #subtitle> Gestiona tus categorias y productos. </template>
+      </GeneralSectionHeader>
+    </div>
+    <div class="grow flex gap-8 sm:flex-row flex-col">
+      <GeneralContainer class="h-1/2 sm:h-full sm:w-1/2 flex flex-col grow">
+        <template #title>Categorias</template>
+        <template #actions>
+          <UButton @click="categoryCreateModal?.openModal" size="sm">
+            Crear
+          </UButton>
         </template>
 
-        <template v-else-if="categoriesStatus === 'pending'">
-          <USkeleton v-for="_ in 5" :key="_" class="block h-12 rounded-lg" />
-        </template>
-      </div>
-    </GeneralContainer>
-    <GeneralContainer class="w-1/2 flex flex-col">
-      <template #title>Productos</template>
-      <template #actions>
-        <UButton
-          @click="onDeleteItemClick"
-          variant="outline"
-          color="red"
-          :disabled="!selectedCategoryItem"
-        >
-          Eliminar
-        </UButton>
-        <UButton
-          @click="
-            () =>
-              categoryCreateItemModal?.openModal(
-                selectedCategoryID,
-                selectedCategoryItem
-              )
-          "
-          variant="outline"
-          :disabled="!selectedCategoryItem"
-        >
-          Editar
-        </UButton>
-        <UButton
-          @click="() => categoryCreateItemModal?.openModal(selectedCategoryID)"
-        >
-          Crear
-        </UButton>
-      </template>
+        <div class="flex flex-col gap-3 sm:gap-5 mt-5 overflow-y-auto">
+          <template v-if="categoriesStatus === 'success'">
+            <CategoryContainer
+              v-if="categories?.length"
+              @click="selectedCategory = ind"
+              v-for="(category, ind) in categories"
+              :key="category.id"
+              :category
+              :selected="ind === selectedCategory"
+            />
 
-      <div class="flex flex-col gap-5 mt-5 grow">
-        <template v-if="itemsStatus === 'success'">
-          <CategoryItemContainer
-            v-if="categoryItems?.length"
-            @click="selectedItem = ind"
-            v-for="(item, ind) in categoryItems"
-            :key="item.id"
-            :selected="ind === selectedItem"
-            :item
-          />
+            <GeneralEmptySlot v-else> No hay categorías </GeneralEmptySlot>
+          </template>
 
-          <GeneralEmptySlot v-else> No hay productos </GeneralEmptySlot>
+          <template v-else-if="categoriesStatus === 'pending'">
+            <USkeleton v-for="_ in 5" :key="_" class="block h-12 rounded-lg" />
+          </template>
+        </div>
+      </GeneralContainer>
+
+      <GeneralContainer class="h-1/2 sm:h-full sm:w-1/2 flex flex-col">
+        <template #title>Productos</template>
+        <template #actions>
+          <UButton
+            @click="onDeleteItemClick"
+            variant="outline"
+            color="error"
+            :disabled="!selectedCategoryItem"
+            size="sm"
+          >
+            Eliminar
+          </UButton>
+          <UButton
+            @click="
+              () =>
+                categoryCreateItemModal?.openModal(
+                  selectedCategoryID,
+                  selectedCategoryItem
+                )
+            "
+            variant="outline"
+            :disabled="!selectedCategoryItem"
+            size="sm"
+          >
+            Editar
+          </UButton>
+          <UButton
+            @click="
+              () => categoryCreateItemModal?.openModal(selectedCategoryID)
+            "
+            size="sm"
+          >
+            Crear
+          </UButton>
         </template>
 
-        <template v-else-if="itemsStatus === 'pending'">
-          <USkeleton v-for="_ in 5" :key="_" class="block h-14 rounded-lg" />
-        </template>
-      </div>
-    </GeneralContainer>
+        <div class="flex flex-col gap-3 sm:gap-5 mt-5 grow overflow-y-auto">
+          <template v-if="itemsStatus === 'success'">
+            <CategoryItemContainer
+              v-if="categoryItems?.length"
+              @click="selectedItem = ind"
+              v-for="(item, ind) in categoryItems"
+              :key="item.id"
+              :selected="ind === selectedItem"
+              :item
+            />
+
+            <GeneralEmptySlot v-else> No hay productos </GeneralEmptySlot>
+          </template>
+
+          <template v-else-if="itemsStatus === 'pending'">
+            <USkeleton v-for="_ in 5" :key="_" class="block h-14 rounded-lg" />
+          </template>
+        </div>
+      </GeneralContainer>
+    </div>
+    <CategoryCreateModal @close="refreshCategories" ref="categoryCreateModal" />
+    <CategoryCreateItemModal
+      @close="refreshCategoryItems"
+      ref="categoryCreateItemModal"
+    />
   </section>
-
-  <CategoryCreateModal @close="refreshCategories" ref="categoryCreateModal" />
-  <CategoryCreateItemModal
-    @close="refreshCategoryItems"
-    ref="categoryCreateItemModal"
-  />
 </template>
 
 <script setup lang="ts">
@@ -151,12 +167,9 @@ const onDeleteItemClick = async () => {
       .delete()
       .eq("id", selectedCategoryItem.value.id);
 
-    console.log(status, statusText);
-
     toast.add({
       title: "Item eliminado",
       description: "El item se eliminó exitosamente",
-      color: "green",
     });
 
     refreshCategoryItems();
@@ -164,7 +177,6 @@ const onDeleteItemClick = async () => {
     toast.add({
       title: "Error",
       description: "Error al eliminar el item",
-      color: "red",
     });
   }
 };
