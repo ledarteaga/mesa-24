@@ -61,7 +61,7 @@
 
           <UTabs
             :items="menuTabs"
-            :ui="{ list: 'overflow-x-scroll overflow-y-visible' }"
+            :ui="{ list: 'overflow-x-auto overflow-y-hidden' }"
             variant="link"
             @change="menuView = false"
           >
@@ -89,7 +89,7 @@
 
     <USlideover
       title="Tu Pedido"
-      description="Escoje los productos para tu pedido por whatsapp."
+      description="Escoje tus productos y envianos tu pedido por WhatsApp."
       v-model:open="sidePanelVisible"
     >
       <template #body>

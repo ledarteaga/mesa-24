@@ -15,7 +15,10 @@
       :icon="data?.whatsapp ? 'i-prime:whatsapp' : 'i-prime-phone'"
       :link="
         data?.whatsapp
-          ? 'https://wa.me/' + data?.phone_number
+          ? 'https://wa.me/' +
+            data?.phone_number +
+            '/?text=' +
+            encodedWhatsappMessage
           : 'tel:' + data?.phone_number
       "
     >
@@ -39,6 +42,10 @@
 </template>
 
 <script setup lang="ts">
+const encodedWhatsappMessage = encodeURIComponent(
+  "Hola, vengo de menuo y quería saber más información de tus productos."
+);
+
 defineProps<{
   data: {
     address: string | null;
