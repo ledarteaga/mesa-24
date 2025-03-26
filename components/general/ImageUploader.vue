@@ -4,7 +4,7 @@
     class="flex h-full justify-center items-center border-2 border-dashed py-7 rounded-lg transition-all duration-200 pointer-events-auto border-gray-800"
   >
     <div class="flex items-center gap-4 flex-col">
-      <NuxtImg :src="getFileUrl()" class="max-h-32" />
+      <img :src="getFileUrl()" class="max-h-32" />
 
       <UButton
         @click="handleDelete"

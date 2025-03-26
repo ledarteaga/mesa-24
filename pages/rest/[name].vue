@@ -21,11 +21,7 @@
       </div>
 
       <UCard
-        class="h-3/4 left-0 right-0 top-0 bottom-0 m-auto absolute transition-all duration-200 shadow-2xl flex flex-col"
-        :class="{
-          'w-3/4 sm:w-2/3': !menuView,
-          'w-4/5 sm:w-3/4': menuView,
-        }"
+        class="w-4/5 sm:w-2/3 h-3/4 left-0 right-0 top-0 bottom-0 m-auto absolute transition-all duration-200 shadow-2xl flex flex-col"
         :ui="{ body: 'grow' }"
       >
         <template #header>
@@ -36,21 +32,63 @@
                 restaurant?.slogan
               }}</span>
             </div>
-            <UAvatar
-              size="3xl"
-              class="hover:scale-105 transition-all"
+            <img
+              class="size-14 rounded-full hover:scale-105 transition-all"
               :src="logoUrl"
             />
           </div>
         </template>
 
-        <div v-if="!menuView" class="grow flex flex-col">
+        <div class="grow flex flex-col">
           <div class="grow">
             <ClientLinkTree @menu="menuView = true" :data="restaurant" />
           </div>
         </div>
 
-        <div v-else class="flex flex-col justify-between">
+        <USlideover
+          v-model:open="menuView"
+          title="Menu"
+          :ui="{
+            content: 'h-6/7 md:h-full',
+          }"
+          description="Escoje tus productos y envianos tu pedido por WhatsApp."
+          :side="breakpoint.tablet.value ? 'right' : 'bottom'"
+        >
+          <template #body>
+            <UTabs
+              :items="menuTabs"
+              :ui="{ list: 'overflow-x-auto overflow-y-hidden' }"
+              variant="link"
+              @change="menuView = false"
+            >
+              <template #content="{ item }">
+                <template v-for="it in getMenuItemsByCategory(item.label)">
+                  <ClientMenuItemRow
+                    @increase="cartStore.addItem"
+                    @decrease="cartStore.removeItem"
+                    :item="it"
+                    :currency="restaurant?.preffered_currency ?? ''"
+                    :quantity="getItemQuantity(it.name)"
+                  />
+                </template>
+              </template>
+            </UTabs>
+          </template>
+          <template #footer>
+            <UButton
+              :to="whatsAppMessageLink"
+              target="_blank"
+              :disabled="!cartStore.itemsCount"
+              class="mx-auto"
+              size="lg"
+              icon="i-prime:whatsapp"
+              @click="sidePanelVisible = false"
+              >Enviar Pedido
+            </UButton>
+          </template>
+        </USlideover>
+
+        <!-- <div v-else class="flex flex-col justify-between">
           <div class="flex justify-end">
             <UButton
               label="Volver"
@@ -77,7 +115,7 @@
               </template>
             </template>
           </UTabs>
-        </div>
+        </div> -->
 
         <template #footer>
           <p class="text-xs text-center font-semibold my-2">
@@ -87,7 +125,7 @@
       </UCard>
     </div>
 
-    <USlideover
+    <!-- <USlideover
       title="Tu Pedido"
       description="Escoje tus productos y envianos tu pedido por WhatsApp."
       v-model:open="sidePanelVisible"
@@ -107,15 +145,21 @@
           >Enviar Pedido
         </UButton>
       </template>
-    </USlideover>
+    </USlideover> -->
   </section>
 </template>
 
 <script setup lang="ts">
+import { useBreakpoints } from "@vueuse/core";
+
 const route = useRoute();
 const client = useSupabaseClient();
 const cartStore = useCartStore();
-
+const breakpoint = useBreakpoints({
+  tablet: 640,
+  desktop: 1024,
+  phone: 510,
+});
 const backdrop = ref<HTMLDivElement>();
 const menuView = ref(false);
 const sidePanelVisible = ref(false);

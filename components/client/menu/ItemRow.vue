@@ -2,15 +2,15 @@
   <div
     class="rounded-lg border border-gray-600 py-2 px-3 my-2 w-full flex justify-between items-center"
   >
-    <span class="text-xs sm:text-sm grow">
-      <p>{{ item.name }}</p>
+    <span class="grow">
+      <p class="font-semibold text-sm">{{ item.name }}</p>
 
-      <p class="text-xs sm:text-sm text-gray-400">
+      <p class="text-gray-400 font-light text-sm">
         {{ item.item_description }}
       </p>
     </span>
 
-    <p class="font-semibold text-xs sm:text-sm mx-2 text-nowrap">
+    <p class="font-semibold text-sm sm:text-sm mx-2 text-nowrap">
       {{ currency }} {{ item.price }}
     </p>
 
@@ -24,7 +24,7 @@
 
       <UInputNumber
         v-else
-        :size="breakpoint.isGreater('tablet') ? 'sm' : 'xs'"
+        :size="breakpoint.phone.value ? 'md' : 'sm'"
         :min="0"
         v-model="value"
       />
@@ -50,6 +50,7 @@ const props = defineProps<{
 const breakpoint = useBreakpoints({
   tablet: 640,
   desktop: 1024,
+  phone: 510,
 });
 
 const onButtonClick = () => {
