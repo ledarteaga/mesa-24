@@ -3,7 +3,7 @@
     class="rounded-lg border border-gray-600 py-2 px-3 my-2 w-full flex justify-between items-center"
   >
     <span class="grow">
-      <p class="font-semibold text-sm">{{ item.name }}</p>
+      <p class="font-semibold text-base">{{ item.name }}</p>
 
       <p class="text-gray-400 font-light text-sm">
         {{ item.item_description }}
@@ -14,7 +14,7 @@
       {{ currency }} {{ item.price }}
     </p>
 
-    <div class="sm:max-w-24 max-w-18">
+    <div class="sm:max-w-24 max-w-22">
       <UButton
         @click="onButtonClick"
         icon="i-prime:plus"
@@ -24,7 +24,9 @@
 
       <UInputNumber
         v-else
-        :size="breakpoint.phone.value ? 'md' : 'sm'"
+        variant="soft"
+        aria-readonly="true"
+        :size="breakpoint.tablet.value ? 'md' : 'sm'"
         :min="0"
         v-model="value"
       />
