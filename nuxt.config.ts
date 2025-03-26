@@ -8,7 +8,9 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: "page", mode: "out-in" },
   },
-
+  image: {
+    quality: 10,
+  },
   supabase: {
     redirectOptions: {
       login: "/login",
@@ -16,4 +18,5 @@ export default defineNuxtConfig({
       exclude: ["/rest/*", "/confirm"],
     },
   },
+  ssr: false,
 });

@@ -29,10 +29,10 @@
         </span>
       </transition>
 
-      <NuxtImg
-        src="/images/login-backdrop.webp"
+      <img
+        src="/public/assets/login-backdrop.webp"
         class="absolute w-full h-full object-cover opacity-55"
-      ></NuxtImg>
+      ></img>
     </div>
 
     <div
@@ -42,7 +42,7 @@
         <template #header>
           <h2 class="font-semibold text-lg">Iniciar Sesión</h2>
         </template>
-        <div class="flex flex-col align-middle gap-5 px-4">
+        <form class="flex flex-col align-middle gap-5 px-4">
           <UInput v-model="user" placeholder="Correo" />
           <UInput v-model="password" type="password" placeholder="Contraseña" />
           <UInput
@@ -62,7 +62,7 @@
             class="flex justify-center"
             label="Registar"
           />
-        </div>
+        </form>
         <template #footer>
           <div class="flex gap-4">
             <UButton
