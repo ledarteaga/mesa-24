@@ -3,26 +3,31 @@
     <div
       class="grow backdrop relative flex flex-col justify-center items-center"
     >
-      <span
-        class="z-10 px-10 flex flex-col gap-1 text-center items-center max-w-lg xl:max-w-3xl xl:items-start xl:text-left"
-      >
-        <GeneralLogo :collapsed="false" />
-
-        <h1
-          class="text-3xl lg:text-5xl xl:text-7xl font-bold mb-1 drop-shadow-2xl"
+      <transition name="fade" appear>
+        <span
+          class="z-10 px-10 flex flex-col gap-1 text-center items-center max-w-lg xl:max-w-3xl xl:items-start xl:text-left"
         >
-          Tu restaurante en un solo click.
-        </h1>
-
-        <p class="font-semibold drop-shadow-2xl text-sm lg:text-lg xl:text-xl">
-          Digitaliza tu carta, recibe pedidos por WhatsApp y convierte visitas
-          en clientes.
-
-          <span class="font-light">
-            Todo en un enlace simple, bonito y fácil de compartir.
-          </span>
-        </p>
-      </span>
+          <GeneralLogo :collapsed="false" />
+          <h1
+            class="text-4xl lg:text-5xl xl:text-7xl font-bold mb-1 drop-shadow-2xl"
+          >
+            Tu restaurante en un
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-sky-500/100"
+              >solo click.</span
+            >
+          </h1>
+          <p
+            class="font-semibold drop-shadow-2xl text-sm lg:text-lg xl:text-xl"
+          >
+            Digitaliza tu carta, recibe pedidos por WhatsApp y convierte visitas
+            en clientes.
+            <span class="font-light">
+              Todo en un enlace simple, bonito y fácil de compartir.
+            </span>
+          </p>
+        </span>
+      </transition>
 
       <NuxtImg
         src="/images/login-backdrop.webp"

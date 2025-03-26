@@ -19,7 +19,8 @@
     "nuxt": "^3.16.0",
     "pinia": "^3.0.1",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vue-writer": "^2.0.2"
   },
   "devDependencies": {
     "@iconify-json/material-symbols-light": "^1.2.15",

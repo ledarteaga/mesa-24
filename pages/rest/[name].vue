@@ -115,7 +115,6 @@
 const route = useRoute();
 const client = useSupabaseClient();
 const cartStore = useCartStore();
-const appConfig = useAppConfig();
 
 const backdrop = ref<HTMLDivElement>();
 const menuView = ref(false);
@@ -207,8 +206,27 @@ const setThemeColor = () => {
   );
 };
 
+onBeforeRouteLeave(() => {
+  document.documentElement.style.setProperty("--ui-primary", "#0093cc");
+
+  useHead({
+    title: "Menuo | Tu restaurante en un solo click.",
+    meta: [
+      {
+        name: "description",
+        content:
+          "Digitaliza tu carta, recibe pedidos por WhatsApp y convierte visitas en clientes.",
+      },
+    ],
+  });
+});
+
 watch(restaurant, () => {
   setBackdrop();
   setThemeColor();
+
+  useHead({
+    title: `Menuo | ${restaurant.value?.name}`,
+  });
 });
 </script>
