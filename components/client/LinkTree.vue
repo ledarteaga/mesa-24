@@ -4,6 +4,7 @@
       <UButton
         label="Nuestra carta"
         icon="i-prime:book"
+        size="lg"
         @click="$emit('menu')"
       />
     </div>

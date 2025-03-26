@@ -6,9 +6,11 @@
     >
       <div class="overlay h-full w-full bg-black opacity-25 absolute"></div>
 
-      <NuxtLink to="/" class="flex justify-center absolute top-10 z-10">
-        <GeneralLogo :collapsed="false" />
-      </NuxtLink>
+      <transition name="fade" appear>
+        <NuxtLink to="/" class="flex justify-center absolute top-10 z-10">
+          <GeneralLogo :collapsed="false" />
+        </NuxtLink>
+      </transition>
 
       <div v-if="menuView" class="absolute right-10 top-10">
         <UChip :text="cartStore.itemsCount">
@@ -47,7 +49,7 @@
 
         <USlideover
           v-model:open="menuView"
-          title="Menu"
+          title="Nuestra Carta"
           :ui="{
             content: 'h-6/7 md:h-full',
           }"
@@ -88,35 +90,6 @@
           </template>
         </USlideover>
 
-        <!-- <div v-else class="flex flex-col justify-between">
-          <div class="flex justify-end">
-            <UButton
-              label="Volver"
-              @click="menuView = false"
-              :variant="'soft'"
-            />
-          </div>
-
-          <UTabs
-            :items="menuTabs"
-            :ui="{ list: 'overflow-x-auto overflow-y-hidden' }"
-            variant="link"
-            @change="menuView = false"
-          >
-            <template #content="{ item }">
-              <template v-for="it in getMenuItemsByCategory(item.label)">
-                <ClientMenuItemRow
-                  @increase="cartStore.addItem"
-                  @decrease="cartStore.removeItem"
-                  :item="it"
-                  :currency="restaurant?.preffered_currency ?? ''"
-                  :quantity="getItemQuantity(it.name)"
-                />
-              </template>
-            </template>
-          </UTabs>
-        </div> -->
-
         <template #footer>
           <p class="text-xs text-center font-semibold my-2">
             {{ restaurant?.address }}
@@ -124,28 +97,6 @@
         </template>
       </UCard>
     </div>
-
-    <!-- <USlideover
-      title="Tu Pedido"
-      description="Escoje tus productos y envianos tu pedido por WhatsApp."
-      v-model:open="sidePanelVisible"
-    >
-      <template #body>
-        <CartList />
-      </template>
-
-      <template #footer>
-        <UButton
-          :to="whatsAppMessageLink"
-          target="_blank"
-          :disabled="!cartStore.itemsCount"
-          class="mx-auto"
-          icon="i-prime:whatsapp"
-          @click="sidePanelVisible = false"
-          >Enviar Pedido
-        </UButton>
-      </template>
-    </USlideover> -->
   </section>
 </template>
 
@@ -214,7 +165,9 @@ const { data: restaurant, status } = useAsyncData("restaurant", async () => {
       .limit(1);
 
     if (!data?.length || error) {
-      throw new Error();
+      navigateTo("/rest/not-found");
+
+      return null;
     }
 
     return data[0];
